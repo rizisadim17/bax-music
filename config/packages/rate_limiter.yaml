@@ -1,0 +1,6 @@
+framework:
+  rate_limiter:
+    rick_and_morty_api:
+      policy: 'fixed_window'
+      limit: 15
+      interval: '1 minute'

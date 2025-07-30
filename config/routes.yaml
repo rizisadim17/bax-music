@@ -1,0 +1,44 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+search_characters_dimension:
+  path: /search/characters/dimension
+  controller: App\Controller\DimensionController::searchCharactersDimension
+  methods: GET
+
+search_characters_location:
+  path: /search/characters/location
+  controller: App\Controller\DimensionController::searchCharactersLocation
+  methods: GET
+
+characters_by_location:
+  path: /characters/location/{location}
+  controller: App\Controller\DimensionController::getCharactersByLocation
+  methods: GET
+
+characters_by_dimension:
+  path: /characters/dimension/{dimension}
+  controller: App\Controller\DimensionController::getCharactersByDimension
+
+characters:
+  path: /character
+  controller: App\Controller\CharacterController::getAllCharacters
+  methods: GET
+
+character_show:
+  path: /character/{id}
+  controller: App\Controller\CharacterController::getCharacterById
+  methods: GET
+
+episodes:
+  path: /episode
+  controller: App\Controller\EpisodeController::getAllEpisodes
+  methods: GET
+
+episode_show:
+  path: /episode/{id}
+  controller: App\Controller\EpisodeController::getEpisodeById
+  methods: GET

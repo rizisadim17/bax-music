@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% block title %}Rick & Morty Explorer!{% endblock %}</title>
+        {{ encore_entry_link_tags('app') }}
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body class="bg-gray-100 text-gray-800 font-sans">
+        {% include 'components/navigation.html.twig' %}
+        <main class="container mx-auto py-8">
+        {% block body %}{% endblock %}
+        </main>
+        {{ encore_entry_script_tags('app') }}
+        
+        {% block javascripts %}{% endblock %}
+  </body>
+</html>

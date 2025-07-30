@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Stimulus Components */
+@layer components {
+    /* Dimension Toggle Animations */
+    [data-dimension-toggle-target="locationList"] {
+        transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    }
+    
+    [data-dimension-toggle-target="arrow"] {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Hover effects for the dimension buttons */
+    button:hover [data-dimension-toggle-target="arrow"] {
+        transform: translateX(2px) !important;
+    }
+
+    /* Character Card Hover Effects */
+    [data-controller="character-toggle"] {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    [data-controller="character-toggle"]:hover {
+        transform: translateY(-8px);
+    }
+    
+    [data-character-toggle-target="overlay"] {
+        backdrop-filter: blur(4px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    [data-character-toggle-target="image"] {
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}
+
+/* You can add other custom styles here */
+@layer utilities {
+    /* Custom utility classes if needed */
+    .slide-enter {
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .slide-leave {
+        transition: all 0.3s ease-in-out;
+    }
+    
+    /* Aspect ratio for character images */
+    .aspect-square {
+        aspect-ratio: 1 / 1;
+    }
+}

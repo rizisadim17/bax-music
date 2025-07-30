@@ -1,0 +1,164 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ data.name }}{% endblock %}
+
+{% block body %}
+<div class="min-h-screen py-8 px-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
+            {# Header Section #}
+            <div class="bg-gradient-to-r from-green-400 to-blue-500 p-6">
+                <div class="flex items-center space-x-6">
+                    <div class="relative">
+                        <img src="{{ data.image }}" 
+                             alt="{{ data.name }}" 
+                             class="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover">
+                            {% set status_color = data.status|lower == 'alive' ? 'bg-green-500' : 
+                                data.status|lower == 'dead' ? 'bg-red-500' : 'bg-gray-500' %}
+                            {% if data.status is defined %}
+                                <div class="absolute -bottom-2 -right-2 {{ status_color }} text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                                    {{ data.status }}
+                                </div>
+                            {% endif %}
+                    </div>
+                        <div class="text-white">
+                        <h1 class="text-4xl font-bold mb-2 text-white">{{ data.name }}</h1>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="bg-white/30 backdrop-blur px-3 py-1 rounded-full text-sm text-white font-medium">
+                                🧬 {{ data.species }}
+                            </span>
+                            <span class="bg-white/30 backdrop-blur px-3 py-1 rounded-full text-sm text-white font-medium">
+                                {% if data.gender == 'Male' %}👨{% elseif data.gender == 'Female' %}👩{% else %}👤{% endif %} {{ data.gender }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Main Content #}
+            <div class="p-6 space-y-6">
+                {# Location Information #}
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <span class="mr-2">📍</span> Current Location
+                        </h3>
+                        <div class="text-gray-600">
+                            {% if data.location and data.location.id %}
+                                {% set location_number = data.location.url|split('/')|last %}
+                                <a href="{{ path('character_by_location', { id: location_number }) }}"
+                                    class="text-blue-600 underline hover:text-blue-700 transition-colors inline-flex items-center gap-1"
+                                >
+                                    <p class="text-lg font-medium">{{ data.location.name }}</p>
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            {% else %}
+                                <p class="text-sm italic text-gray-500">No known location for this character.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                            <span class="mr-2">🌍</span> Origin
+                        </h3>
+                        <div class="text-gray-600">
+                            {% if data.origin and data.origin.id %}
+                                {% set origin_number = data.origin.url|split('/')|last %}
+                                <a href="{{ path('character_by_location', { id: origin_number }) }}"
+                                    class="text-blue-600 underline hover:text-blue-700 transition-colors inline-flex items-center gap-1"
+                                >
+                                    <p class="text-lg font-medium">{{ data.origin.name }}</p>
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                    </svg>
+                                </a>
+                            {% else %}
+                                <p class="text-sm italic text-gray-500">No known origin for this character.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                {# Episodes Section with Stimulus Controller #}
+                <div class="bg-gray-50 rounded-xl border border-gray-200" 
+                     data-controller="episodes-toggle"
+                     data-episodes-toggle-count-value="{{ data.episode|length }}">
+                    
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-semibold text-gray-800 flex items-center">
+                                <span class="mr-2">📺</span> Episodes
+                                <span class="ml-2 bg-blue-500 text-white px-2 py-1 rounded-full text-sm">
+                                    {{ data.episode|length }}
+                                </span>
+                            </h3>
+                            <button data-action="click->episodes-toggle#toggle"
+                                    data-episodes-toggle-target="toggleButton"
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2">
+                                <span data-episodes-toggle-target="toggleText">Show Episodes</span>
+                                <svg data-episodes-toggle-target="toggleIcon" 
+                                     class="w-4 h-4 transform transition-transform" 
+                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div data-episodes-toggle-target="content" 
+                         class="hidden">
+                        <div class="p-6">
+                            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                {% for episode_url in data.episode %}
+                                    {% set episode_number = episode_url|split('/')|last %}
+                                    <a href="{{ path('episode_show', { id: episode_number }) }}"
+                                       class="bg-white/10 hover:bg-white/20 backdrop-blur rounded-lg p-4 border border-white/10 transition-all duration-200 hover:scale-105 group">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="bg-gradient-to-r from-pink-500 to-violet-500 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                                {{ episode_number }}
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="font-medium group-hover:text-blue-300 transition-colors">
+                                                    Episode {{ episode_number }}
+                                                </p>
+                                            </div>
+                                            <svg class="w-4 h-4 text-gray-400 group-hover:text-blue-300 transition-colors" 
+                                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                            </svg>
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Character Stats #}
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Character Summary</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-center">
+                        <div class="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+                            <div class="text-2xl font-bold text-gray-800">{{ data.episode|length }}</div>
+                            <div class="text-gray-600 text-sm">Episodes</div>
+                        </div>
+                        {% set status_color = data.status|lower == 'alive' ? 'text-green-600' : 
+                                data.status|lower == 'dead' ? 'text-red-600' : 'text-gray-600' %}
+                        <div class="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+                            <div class="text-2xl font-bold {{ status_color }}">{{ data.status }}</div>
+                            <div class="text-gray-600 text-sm">Status</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+                            <div class="text-2xl font-bold text-blue-600">{{ data.species }}</div>
+                            <div class="text-gray-600 text-sm">Species</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
