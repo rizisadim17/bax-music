@@ -100,10 +100,12 @@ class CharacterService {
             'gender' => $data['gender'],
             'image' => $data['image'],
             'origin' => [
-                'name' => $data['origin']['name'] ?? 'Unknown'
+                'name' => $data['origin']['name'] ?? 'Unknown',
+                'url' => $data['origin']['url'] ?? ''
             ],
             'location' => [
-                'name' => $data['location']['name'] ?? 'Unknown'
+                'name' => $data['location']['name'] ?? 'Unknown',
+                'url' => $data['location']['url'] ?? ''
             ],
             'episode' => $data['episode'] ?? []
         ];

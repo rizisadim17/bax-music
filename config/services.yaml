@@ -19,6 +19,11 @@ services:
         autowire: true
         autoconfigure: true
 
+    App\Service\LocationService:
+        arguments:
+            $client: '@http_client'
+            $baseUrl: '%api.base_url%'
+
     App\Service\CharacterService:
         arguments:
             $client: '@http_client'

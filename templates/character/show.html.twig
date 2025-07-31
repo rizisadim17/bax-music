@@ -44,9 +44,9 @@
                             <span class="mr-2">📍</span> Current Location
                         </h3>
                         <div class="text-gray-600">
-                            {% if data.location and data.location.id %}
+                            {% if data.location and data.location.url %}
                                 {% set location_number = data.location.url|split('/')|last %}
-                                <a href="{{ path('character_by_location', { id: location_number }) }}"
+                                <a href="{{ path('location_show', { id: location_number }) }}"
                                     class="text-blue-600 underline hover:text-blue-700 transition-colors inline-flex items-center gap-1"
                                 >
                                     <p class="text-lg font-medium">{{ data.location.name }}</p>
@@ -65,9 +65,9 @@
                             <span class="mr-2">🌍</span> Origin
                         </h3>
                         <div class="text-gray-600">
-                            {% if data.origin and data.origin.id %}
+                            {% if data.origin and data.origin.url %}
                                 {% set origin_number = data.origin.url|split('/')|last %}
-                                <a href="{{ path('character_by_location', { id: origin_number }) }}"
+                                <a href="{{ path('location_show', { id: origin_number }) }}"
                                     class="text-blue-600 underline hover:text-blue-700 transition-colors inline-flex items-center gap-1"
                                 >
                                     <p class="text-lg font-medium">{{ data.origin.name }}</p>

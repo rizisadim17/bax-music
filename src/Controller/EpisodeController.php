@@ -38,7 +38,6 @@ final class EpisodeController extends AbstractController
         
         if (!empty($data['characters'])) {
             foreach ($data['characters'] as $characterUrl) {
-                //Get the id of the url
                 $characterId = substr($characterUrl, strrpos($characterUrl, '/') + 1);
                 $characterDetails = $this->characterService->getCharacterById((int)$characterId);
                 $characterData[] = $characterDetails;

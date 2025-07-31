@@ -4,24 +4,29 @@ controllers:
         namespace: App\Controller
     type: attribute
 
+location_show:
+  path: /location/{id}
+  controller: App\Controller\LocationController::getLocationById
+  methods: GET
+
 search_characters_dimension:
   path: /search/characters/dimension
-  controller: App\Controller\DimensionController::searchCharactersDimension
+  controller: App\Controller\LocationController::searchCharactersDimension
   methods: GET
 
 search_characters_location:
   path: /search/characters/location
-  controller: App\Controller\DimensionController::searchCharactersLocation
+  controller: App\Controller\LocationController::searchCharactersLocation
   methods: GET
 
 characters_by_location:
   path: /characters/location/{location}
-  controller: App\Controller\DimensionController::getCharactersByLocation
+  controller: App\Controller\LocationController::getCharactersByLocation
   methods: GET
 
 characters_by_dimension:
   path: /characters/dimension/{dimension}
-  controller: App\Controller\DimensionController::getCharactersByDimension
+  controller: App\Controller\LocationController::getCharactersByDimension
 
 characters:
   path: /character

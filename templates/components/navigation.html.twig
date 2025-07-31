@@ -21,7 +21,9 @@
                     </a>
                     <a href="{{ path('search_characters_location') }}" 
                        class="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 
-                              {% if app.request.get('_route') == 'search_characters_location' or app.request.get('_route') == 'characters_by_location' %}bg-green-600 text-white shadow-lg
+                              {% if app.request.get('_route') == 'search_characters_location'
+                                or app.request.get('_route') == 'characters_by_location'
+                                or app.request.get('_route') == 'location_show' %}bg-green-600 text-white shadow-lg
                               {% else %}text-gray-300 hover:bg-gray-700 hover:text-white{% endif %}"
                        data-menu-section-param="location">
                         📍 Locations
