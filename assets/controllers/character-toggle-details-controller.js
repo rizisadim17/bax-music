@@ -19,19 +19,17 @@ export default class extends Controller {
 
     handleClick(event) {
         if (!this.detailsShown) {
-            event.preventDefault(); // stop navigation
+            event.preventDefault();
             this.showDetails();
             this.detailsShown = true;
 
-            // Optional: reset after a short delay if no second tap
             setTimeout(() => {
                 this.hideDetails();
                 this.detailsShown = false;
             }, 1000);
         } else {
             this.hideDetails();
-            // Let the browser follow the link naturally
-            this.detailsShown = false; // reset for next round
+            this.detailsShown = false;
         }
     }
 
