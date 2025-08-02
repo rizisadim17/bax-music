@@ -95,7 +95,6 @@ class CharacterService {
             $characters = [];
             if (!empty($data)) {
                 $characters = $this->characterDetails($data);
-                // $characters['status'] = $data['status'] ?? 'unknown';
             }
 
             return $characters;
