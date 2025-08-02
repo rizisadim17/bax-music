@@ -32,12 +32,13 @@ final class EpisodeController extends AbstractController
         ]);
     }
 
-    public function getEpisodeById(int $id) {
-        $data = $this->episodeService->getEpisodeById($id);
+    public function getEpisodeById(int $id, Request $request) {
+        $page = (int) $request->query->get('page', 1);
+        $data = $this->episodeService->getEpisodeById($id, $page);
         $characterData = [];
-        
-        if (!empty($data['characters'])) {
-            foreach ($data['characters'] as $characterUrl) {
+       
+        if (!empty($data['pagination']['characters_per_page'])) {
+            foreach ($data['pagination']['characters_per_page'] as $characterUrl) {
                 $characterId = substr($characterUrl, strrpos($characterUrl, '/') + 1);
                 $characterDetails = $this->characterService->getCharacterById((int)$characterId);
                 $characterData[] = $characterDetails;
@@ -45,7 +46,8 @@ final class EpisodeController extends AbstractController
         }
 
         return $this->render('episode/show.html.twig', [
-            'data' => $data,
+            'data' => $data['episdode_data'],
+            'pagination' => $data['pagination'],
             'characters' => $characterData,
         ]);
     }

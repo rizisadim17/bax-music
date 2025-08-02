@@ -139,7 +139,9 @@
                 </div>
             {% endif %}
         </div>
-
+        {% if pagination.total_pages > 1 %}
+            {% include 'components/pagination.html.twig' %}
+        {% endif %}
     {% else %}
         {# No Episode Found State #}
         <div class="text-center py-20">

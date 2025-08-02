@@ -8,13 +8,16 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 class EpisodeService {
     private string $baseUrl;
     private HttpClientInterface $client;
+    private PaginationService $paginationService;
 
     public function __construct(
         HttpClientInterface $client,
-        string $baseUrl
+        string $baseUrl,
+        PaginationService $paginationService,
     ) {
         $this->client = $client;
         $this->baseUrl = $baseUrl;
+        $this->paginationService = $paginationService;
     }
 
     public function getAllEpisodes() {
@@ -27,11 +30,11 @@ class EpisodeService {
             $episodes = [];
             foreach ($data['results'] as $episode) {
                 $episodes[] = [
-                    'id' => $episode['id'],
-                    'name' => $episode['name'],
-                    'air_date' => $episode['air_date'],
-                    'episode' => $episode['episode'],
-                    'url' => $episode['url']
+                    'id' => $episode['id'] ?? '',
+                    'name' => $episode['name'] ?? '',
+                    'air_date' => $episode['air_date'] ?? '',
+                    'episode' => $episode['episode'] ?? '',
+                    'url' => $episode['url'] ?? '',
                 ];
             }
             usort($episodes, function ($a, $b) {
@@ -44,13 +47,27 @@ class EpisodeService {
         }
     }
 
-    public function getEpisodeById($id) {
+    public function getEpisodeById(int $id, int $page) {
         $url = $this->baseUrl . '/episode/' . $id;
 
         try {
             $response = $this->client->request('GET', $url);
             $data = $response->toArray();
-            return $data;
+            $characterUrls = $data['characters'] ?? [];
+            $pagination = $this->paginationService->pagination($characterUrls, $page, 20);
+
+            $data = [
+                'id' => $data['id'] ?? '',
+                'name' => $data['name'] ?? '',
+                'air_date' => $data['air_date'] ?? '',
+                'episode' => $data['episode'] ?? '',
+                'url' => $data['url'] ?? '',
+            ];
+
+            return [
+                'episdode_data' => $data,
+                'pagination' => $pagination,
+            ];
 
         } catch (TransportExceptionInterface $e) {
             throw new \RuntimeException('Transport error: ' . $e->getMessage());

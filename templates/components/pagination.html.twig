@@ -1,0 +1,34 @@
+{% if pagination.total_pages > 1 %}
+    <div class="mt-12 flex justify-center items-center space-x-4" style="margin-top: 32px;">
+
+            {% set prev_classes = pagination.has_prev ? 
+            'px-6 py-2 text-sm text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm' :
+            'px-6 py-2 text-sm text-gray-400 bg-gray-100 border border-gray-200 rounded-full cursor-not-allowed opacity-50' %}
+        {% if pagination.has_prev %}
+            <a href="{{app.request.pathinfo}}?page={{pagination.current_page - 1}}"
+                class="{{ prev_classes }}">
+                Previous
+            </a>
+        {% else %}
+            <span class="{{ prev_classes }}">Previous</span>
+        {% endif %}
+        <span class="px-4 py-2 text-sm text-gray-500 bg-gray-100 rounded-full">
+            Page {{pagination.current_page}} of {{ pagination.total_pages }}
+        </span>
+        {% set next_classes = pagination.has_next ? 
+            'px-6 py-2 text-sm text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm' :
+            'px-6 py-2 text-sm text-gray-400 bg-gray-100 border border-gray-200 rounded-full cursor-not-allowed opacity-50' %}
+        
+        {% if pagination.has_next %}
+            <a href = "{{app.request.pathinfo}}?page={{pagination.current_page + 1 }}"
+                class="{{ next_classes }}">
+                Next
+            </a>
+        {% else %}
+            <span class="{{ next_classes }}">Next</span>
+        {% endif %}
+    </div>
+    <div class="mt-4 text-center text-sm text-gray-500">
+        Total: {{ pagination.total_characters }} characters
+    </div>
+{% endif %}

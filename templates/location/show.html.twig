@@ -153,6 +153,9 @@
                             </a>
                         {% endfor %}
                     </div>
+                    {% if pagination.total_pages > 1 %}
+                        {% include 'components/pagination.html.twig' %}
+                    {% endif %}
                 {% else %}
                     <div class="text-center py-16">
                         <div class="text-gray-400 mb-6">
