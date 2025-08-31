@@ -15,3 +15,6 @@ docker exec -it bax-music bash
 
 To access the project
 http://localhost:8000/search/characters/dimension
+
+API
+https://rickandmortyapi.com/api/
