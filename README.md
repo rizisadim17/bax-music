@@ -1,5 +1,5 @@
-# bax-music
-Rick and Morty Exam
+# Rick And Morty
+Rick and Morty
 
 To run containers
 docker compose -f docker-compose.yml up -d
